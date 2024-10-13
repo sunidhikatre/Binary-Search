@@ -1,0 +1,76 @@
+Find the Rotation Point (Pivot): The array is rotated, so you first find the smallest element (pivot) using the getMid method, which helps identify where the rotation occurred.
+
+Check if Pivot is the Target: Once the pivot is found, you check if the target element matches the pivot.
+
+Perform Binary Search on Both Halves: Since the array is split into two sorted halves around the pivot, you perform binary search on the left and right halves separately.
+
+Return the Found Index: If either of the two searches returns a valid index (>= 0), the corresponding index is returned.
+
+Return -1 if Not Found: If the target element is not found in either half, return -1.
+
+
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+        int mid = getMid(nums, start, end);
+        System.out.println(mid);
+        if(nums[mid] == target) {
+            return mid;
+        }
+        int leftArr= binarysearch(nums, start, mid-1, target);
+        int rightArr = binarysearch(nums, mid+1, end, target);
+        int result = (leftArr >= 0 || rightArr >= 0) ? Math.max(leftArr, rightArr) : -1;  
+        return result;      
+    }
+
+    public int binarysearch(int[] arr, int start, int end, int k) {
+        // Code Here      
+        while(start <= end) {
+            int mid = (end+start)/2;
+    
+             if(arr[mid] < k){
+                start = mid+1;
+             } else if(arr[mid] > k) {
+                 end = mid - 1;
+             } else{
+                 return mid;
+             }
+        }
+        
+        return -1;
+        
+       
+    }
+
+
+    public int getMid(int[] arr, int start, int end) {
+        // int start = 0;
+        // int end = arr.size() - 1;
+        int mid = -1;
+        int n = arr.length;
+       
+        while(start <= end) {
+            mid = (start + end)/2;
+           // System.out.println(mid);
+            int next = (mid+1) % n;
+            int prev = (mid+n-1) % n;
+            
+            if(arr[mid] < arr[prev] && arr[mid] < arr[next]) {
+                return mid;
+            } 
+            
+            //check in unsorted array
+            if(arr[mid] <= arr[end]) {
+                end = mid-1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return mid;
+    }
+
+
+    
+}
