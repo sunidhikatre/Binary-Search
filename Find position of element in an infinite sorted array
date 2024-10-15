@@ -1,0 +1,36 @@
+Exponential Search: The while loop expands the search range by doubling high until the key is within the range [low, high]. This helps efficiently narrow down where the key might be.
+Binary Search: Once the range is found, the binarySearch function is called to search within the bounded range.
+Range Limitation: The range for binary search is limited to the array bounds using Math.min(high, arr.length - 1).
+
+class Solution {
+    public int exponentialSearch(int[] arr, int key) {
+        // Initialize low and high
+        int low = 0;
+        int high = 1;
+        
+        // Find the appropriate range by doubling high until key is within range
+        while (high < arr.length && key > arr[high]) {
+            low = high;
+            high = high * 2;
+        }
+
+        // Apply binary search within the found range
+        return binarySearch(arr, low, high, key);
+    }
+    
+    // Standard binary search within range [low, high]
+    private int binarySearch(int[] arr, int low, int high, int key) {
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            
+            if (arr[mid] == key) {
+                return mid;  // Key found
+            } else if (arr[mid] < key) {
+                low = mid + 1;  // Search right
+            } else {
+                high = mid - 1;  // Search left
+            }
+        }
+        return -1;  // Key not found
+    }
+}
