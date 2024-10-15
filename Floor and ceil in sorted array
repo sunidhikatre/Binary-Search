@@ -1,0 +1,70 @@
+Sort the array to ensure it's in ascending order (necessary for binary search).
+Use binary search to find the floor:
+Start with start = 0 and end = arr.length - 1.
+If arr[mid] == x, the floor is x.
+If arr[mid] < x, update floor to arr[mid] and search to the right.
+If arr[mid] > x, search to the left.
+Use another binary search to find the ceiling:
+Start similarly as above.
+If arr[mid] == x, the ceiling is x.
+If arr[mid] > x, update ceil to arr[mid] and search to the left.
+If arr[mid] < x, search to the right.
+Return floor and ceiling:
+If no valid floor/ceiling is found, return -1 for that value.
+
+class Solution {
+    public int[] getFloorAndCeil(int x, int[] arr) {
+         Arrays.sort(arr);
+        // code here
+        int start = 0;
+        int end = arr.length-1;
+        int floor = -1;
+        int ceil = -1;
+        int[] result = new int[2];
+        
+        while(start <= end) {
+            int mid = (start + end)/2;
+            
+            if(arr[mid] == x) {
+                result[0] = arr[mid];
+            } else if(arr[mid] > x) {
+                end = mid -1;
+            } else {
+                floor = (int)mid;
+                start = mid + 1;
+            }
+        }
+        if(floor == -1) {
+            result[0] = -1;
+        } else {
+            result[0] = arr[floor];
+        }
+        
+        
+        start = 0;
+        end = arr.length-1;
+        
+        while(start <= end) {
+            int mid = (start + end)/2;
+            
+            if(arr[mid] == x) {
+                result[1] = arr[mid];
+            } else if(arr[mid] > x) {
+                ceil = (int)mid;
+                end = mid -1;
+            } else {
+                start = mid + 1;
+            }
+        }
+    //    System.out.println(ceil);
+        if(ceil == -1) {
+            result[1] = -1;
+        } else {
+            result[1] = arr[ceil];
+        }
+        
+        
+        return result;
+        
+    }
+}
