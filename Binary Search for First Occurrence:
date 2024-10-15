@@ -1,0 +1,38 @@
+Perform binary search within the range [low, high].
+If arr[mid] == key, record it as a potential result and continue searching to the left (high = mid - 1) to find the first occurrence.
+Return the first occurrence if found, or -1 if the key is not present.
+
+
+class Solution {
+    public int exponentialSearch(int[] arr, int key) {
+        // Initialize low and high
+        int low = 0;
+        int high = 1;
+        
+        // Find the appropriate range by doubling high until key is within range
+        while (high < arr.length && key > arr[high]) {
+            low = high;
+            high = high * 2;
+        }
+
+        // Apply binary search within the found range
+        return binarySearch(arr, low, high, key);
+    }
+    
+    // Standard binary search within range [low, high]
+    private int binarySearch(int[] arr, int low, int high, int key) {
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            
+            if (arr[mid] == key) {
+                result = mid;  // Potential first occurrence found
+                high = mid - 1;  // Continue searching on the left side
+            } else if (arr[mid] < key) {
+                low = mid + 1;  // Search right
+            } else {
+                high = mid - 1;  // Search left
+            }
+        }
+        return -1;  // Key not found
+    }
+}
