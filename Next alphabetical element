@@ -1,0 +1,30 @@
+
+Perform a binary search to find the smallest character greater than target by updating ceil when letters[mid] > target.
+If no ceiling is found (ceil == -1), return the first character in the array (circular nature).
+Otherwise, return the character at index ceil.
+
+class Solution {
+    public char nextGreatestLetter(char[] letters, char target) {
+        int start = 0;
+        int end = letters.length - 1;
+        int ceil = -1;
+        // smallest greater elemnt
+        while(start <= end) {
+            int mid = (start + end)/2;
+
+            if(letters[mid] == target) {
+                start = mid + 1;
+            } else if(letters[mid] > target) {
+                ceil = (int)mid;
+                end = mid -1;
+            } else {
+                start = mid+1;
+            }
+        }
+        if(ceil == -1) {
+            return letters[0];
+        } else {
+            return letters[ceil];
+        }
+    } 
+}
