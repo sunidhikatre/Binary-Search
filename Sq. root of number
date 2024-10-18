@@ -1,0 +1,25 @@
+
+Perform binary search between 1 and n, calculating the mid-point.
+If mid * mid is greater than n, move the search left; otherwise, move it right.
+The final result will be the highest mid whose square is less than or equal to n.
+
+
+class Solution {
+    long floorSqrt(long n) {
+        // Your code here
+        
+        long start = 1;
+        long end = n;
+        
+        while(start <= end) {
+            long mid = (start + end)/2;
+            
+            if(mid * mid > n) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return end;
+    }
+}
