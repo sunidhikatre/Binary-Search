@@ -1,0 +1,50 @@
+The array arr contains a set of sorted positive integers, and the goal is to find the k-th positive integer that is missing from the sequence starting from 1.
+The approach is straightforward: for each number in arr, it checks if that number is less than or equal to k. If so, it means the missing number we are tracking is "shifted" further by 1. This is because if a number exists in arr, it means it isn't missing, so the k-th missing number shifts forward.
+Once it finds a number that is greater than k, it stops because the k-th missing number can be determined directly.
+
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+
+        for(int i = 0; i< arr.length; i++) {
+            if(arr[i] <= k) {
+                k++;
+            } else {
+                break;
+            }
+        }
+        return k;
+    }
+}
+
+
+Approach:
+Initial Check: If arr[0] > k, the kth missing positive integer is less than the first element of arr, so return k directly.
+Binary Search Setup: Perform binary search to locate where the kth missing number would fall by iterating with low and high pointers on arr.
+Calculate Missing Numbers: For each mid, calculate how many numbers are missing before arr[mid] using arr[mid] - (mid + 1).
+Adjust Search Bounds: If the missing number count at mid is less than k, move low to mid + 1. Otherwise, move high to mid - 1.
+Final Answer: After the loop, return low + k because low is the point where we would have the kth missing number.
+
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int low =0;
+        int high = arr.length - 1;
+         if (arr[0] > k) {
+            return k;
+        }
+
+
+        while(low <= high) {
+            int mid = (low + high)/2;
+
+            int missing = arr[mid] - (mid + 1);
+            if(missing < k) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        //ans = arr[high] + more where more = (k - missing)
+        // arr[high] + k - arr[high] - (high + 1) = high+1+k ~ (low+k) as low surpassed high after breaking out of loop 
+       return low+k;
+    }
+}
