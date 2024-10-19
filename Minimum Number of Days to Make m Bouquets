@@ -1,0 +1,54 @@
+Binary Search Setup: Use binary search on the range of possible days (mini to maxi), where mini is the earliest bloom day and maxi is the latest bloom day in the array.
+Feasibility Check: For each mid value in binary search, check if it's possible to make m bouquets by counting valid flowers that bloom on or before mid.
+Update Search Range: If it's possible to make m bouquets, try to minimize the number of days by setting end = mid - 1. If not, increase the days by setting start = mid + 1.
+Final Validation: After binary search, verify if making m bouquets is possible with start days.
+Return Result: If possible, return the start value as the minimum days, otherwise return -1.
+
+class Solution {
+
+    boolean possible(int[] arr, int mid, int m , int k) {
+     //   System.out.println(mid);
+        int cnt = 0;
+        int noOfB = 0;
+        for(int i = 0; i<arr.length; i++) {
+            if(arr[i] <= mid) {    
+                cnt++;             
+            } else {
+                noOfB += cnt/k;
+                cnt = 0;
+            }
+
+        }
+       noOfB += cnt / k;  
+        return noOfB >=m ? true: false;
+    }
+
+    public int minDays(int[] bloomDay, int m, int k) {
+        int val = m * k;
+        if(bloomDay.length < val) {
+            return -1;
+        }
+
+        int mini = Integer.MAX_VALUE;
+        int maxi = Integer.MIN_VALUE;
+
+        for(int i = 0; i < bloomDay.length; i++) {
+             mini = Math.min(mini, bloomDay[i]);
+             maxi = Math.max(maxi, bloomDay[i]);
+        }
+
+        int start = mini;
+        int end = maxi;
+
+        while(start <= end) {
+            int mid = (start + end) /2;
+
+            if(possible(bloomDay, mid, m , k)) {
+                end = mid - 1;
+            } else {
+                start = mid +1;
+            }
+        }
+        return possible(bloomDay, start, m, k) ? start : -1;
+    }
+}
