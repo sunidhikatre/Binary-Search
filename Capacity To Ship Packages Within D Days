@@ -1,0 +1,51 @@
+Initialize bounds: Set low to the maximum element in weights (minimum possible capacity) and high to the sum of all elements in weights (maximum possible capacity).
+Binary search: Use binary search to determine the minimum capacity (mid) between low and high that allows shipping within days.
+Calculate days: For each capacity mid, use the getDays() function to calculate the number of days required to ship all packages.
+Adjust bounds: If the calculated days are less than or equal to the target days, move the upper bound (high = mid - 1); otherwise, move the lower bound (low = mid + 1).
+Return: The final value of low will be the minimum capacity required to ship within the given number of days.
+Time Complexity:
+Binary Search: The binary search runs for O(log(sum - max)), where sum is the total weight and max is the maximum weight.
+Days Calculation: For each binary search step, getDays() scans the array, which takes O(n) time.
+Overall Time Complexity: O(n log(sum - max))
+
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+        int maxi = Integer.MIN_VALUE;
+        int sum = 0;
+
+        for(int i = 0; i < weights.length; i++) {
+            maxi = Math.max(maxi, weights[i]);
+            sum+=weights[i];
+        }
+
+        int low = maxi;
+        int high  = sum;
+
+        while(low <= high) {
+            int mid = (low + high)/2;
+            int noOfDays = getDays(weights, mid);
+
+            if(noOfDays <= days) {
+                high = mid -1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+    int getDays(int[] weights, int cap) {
+        int days = 1;
+        int load = 0;
+
+        for(int i=0; i<weights.length; i++) {
+            if(weights[i] + load > cap){
+                days +=1;
+                load = weights[i];
+            } else {
+                load += weights[i];
+            }
+        }
+        return days;
+    }
+}
