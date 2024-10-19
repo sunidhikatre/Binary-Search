@@ -1,0 +1,38 @@
+Binary Search Setup: Set the search range between 1 and the maximum element of the array (maxi).
+Calculate Division Sum: For each potential divisor (mid-point in the search), compute the sum of divisions (rounded up) of all elements in the array using that divisor.
+Compare to Threshold: If the total sum exceeds the threshold, increase the divisor by moving the lower bound (start). Otherwise, decrease the divisor by adjusting the upper bound (end).
+Continue Searching: Repeat the process until you narrow down to the smallest valid divisor.
+Return Result: The smallest divisor that satisfies the threshold condition will be start.
+
+class Solution {
+    int getD(int[] nums, int mid) {
+        int sum = 0;
+
+        for(int i = 0; i< nums.length; i++) {
+            sum += Math.ceil((double)nums[i]/(double)mid);
+        }
+        return sum;
+    }
+    public int smallestDivisor(int[] nums, int threshold) {
+        int maxi = Integer.MIN_VALUE;
+        for(int i = 0; i < nums.length; i++) {
+             maxi = Math.max(maxi, nums[i]);
+        }
+        int start =0;
+        int end = maxi;
+
+        while(start <= end) {
+            int mid = (start + end)/2;
+
+            int sumOfNums = getD(nums, mid);
+
+            if(sumOfNums > threshold) {
+                start = mid + 1;
+            } else {
+                end = mid -1;
+            }
+        }
+        
+        return start;   
+    }
+}
