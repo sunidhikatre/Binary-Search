@@ -1,0 +1,47 @@
+Question is same as https://leetcode.com/problems/magnetic-force-between-two-balls/
+
+Approach
+Sort the positions: This helps in placing magnets efficiently by maintaining the correct order of distances.
+Binary search on distance: Start with the minimum possible distance (low = 1) and the maximum possible distance (high = max position - min position).
+Check placement feasibility: For each mid-point in the binary search, check if it's possible to place m magnets with at least mid distance.
+Update search bounds: If placement is possible, increase the distance (low = mid + 1) to find a larger possible distance, else decrease (high = mid - 1).
+Return the result: The maximum feasible distance is stored in ans, which gets updated every time placement is successful.
+
+class Solution {
+
+    boolean canWePlace(int[] position, int dist, int m) {
+        int cntMagnets = 1;
+        int last = position[0];
+
+        for(int i = 1; i < position.length; i++) {
+            if(position[i] - last >= dist) {
+                cntMagnets++;
+                last = position[i];
+            } 
+            if(cntMagnets == m){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int maxDistance(int[] position, int m) {
+        Arrays.sort(position);
+        int n = position.length;
+        int ans = 0;
+
+        int low = 1;
+        int high = position[n-1] - position[0];
+
+        while(low <= high) {
+            int mid = (low + high)/2;
+            if(canWePlace(position, mid, m)) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+}
