@@ -1,0 +1,63 @@
+We need to split the array into k or fewer subarrays, and minimize the maximum sum among these subarrays.
+The "maximum sum of a subarray" can range from the maximum element of the array (low) to the total sum of the array (high).
+Use binary search on this range to find the smallest maximum sum possible.
+For each midpoint (mid) of the binary search, check if it's possible to split the array such that no subarray has a sum greater than mid.
+If the number of required subarrays (or students) exceeds k, increase the lower bound (low).
+If it's possible to split within k subarrays, update the result (ans) and try for smaller subarrays by decreasing the upper bound (high).
+Continue this until the binary search converges.
+Return the smallest valid mid as the answer.
+
+
+class Solution {
+    // Function to calculate the number of students required to divide the array with the current max pages limit (mid).
+    int calculateStudents(int pages, int[] nums) {
+        int noOfStudents = 1;  // Start with one student.
+        int pagesPerStudent = 0;  // Track pages allocated to the current student.
+
+        for (int i = 0; i < nums.length; i++) {
+            // If adding current book doesn't exceed the page limit, assign it to the current student.
+            if (pagesPerStudent + nums[i] <= pages) {
+                pagesPerStudent += nums[i];
+            } else {
+                // Otherwise, allocate this book to a new student.
+                noOfStudents++;
+                pagesPerStudent = nums[i];
+            }
+        }
+        return noOfStudents;  // Return the number of students needed.
+    }
+
+    public int splitArray(int[] nums, int k) {
+        int sum = 0;
+        int ans = 0;
+        int maxi = Integer.MIN_VALUE;
+
+        // Calculate total sum and find the maximum element in the array.
+        for (int i = 0; i < nums.length; i++) {
+            maxi = Math.max(maxi, nums[i]);  // Find max book size.
+            sum += nums[i];  // Calculate total sum of books.
+        }
+
+        int low = maxi;  // The minimum possible value is the largest book size.
+        int high = sum;  // The maximum possible value is the total sum of all books.
+
+        // Perform binary search to find the smallest possible maximum pages for a student.
+        while (low <= high) {
+            int mid = (low + high) / 2;  // Mid represents the current possible max pages per student.
+
+            // Calculate how many students we need if we limit max pages per student to mid.
+            int students = calculateStudents(mid, nums);
+
+            if (students > k) {
+                // If more than k students are required, increase the page limit.
+                low = mid + 1;
+            } else {
+                // If k or fewer students are enough, store the result and try for a smaller max pages value.
+                ans = mid;
+                high = mid - 1;
+            }
+        }
+
+        return ans;  // Return the smallest maximum page allocation that works.
+    }
+}
