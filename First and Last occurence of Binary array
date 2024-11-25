@@ -1,4 +1,5 @@
-Perform binary search twice: once to find the first occurrence of the target by moving end to mid - 1 when a match is found, and once to find the last occurrence by moving start to mid + 1.
+Perform binary search twice: once to find the first occurrence of the target by moving end to mid - 1 when a match is found, 
+and once to find the last occurrence by moving start to mid + 1.
 Track the positions when the target is found and update the result array accordingly.
 If the target is not found after both searches, return [-1, -1].
 
