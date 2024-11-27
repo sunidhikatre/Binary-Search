@@ -1,6 +1,8 @@
 Binary Search Setup: Set the search range between 1 and the maximum element of the array (maxi).
-Calculate Division Sum: For each potential divisor (mid-point in the search), compute the sum of divisions (rounded up) of all elements in the array using that divisor.
-Compare to Threshold: If the total sum exceeds the threshold, increase the divisor by moving the lower bound (start). Otherwise, decrease the divisor by adjusting the upper bound (end).
+Calculate Division Sum: For each potential divisor (mid-point in the search), compute the sum of divisions (rounded up)
+of all elements in the array using that divisor.
+Compare to Threshold: If the total sum exceeds the threshold, increase the divisor by moving the lower bound (start).
+Otherwise, decrease the divisor by adjusting the upper bound (end).
 Continue Searching: Repeat the process until you narrow down to the smallest valid divisor.
 Return Result: The smallest divisor that satisfies the threshold condition will be start.
 
