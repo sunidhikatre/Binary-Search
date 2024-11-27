@@ -1,7 +1,11 @@
-Initialize bounds: Set low to the maximum element in weights (minimum possible capacity) and high to the sum of all elements in weights (maximum possible capacity).
-Binary search: Use binary search to determine the minimum capacity (mid) between low and high that allows shipping within days.
-Calculate days: For each capacity mid, use the getDays() function to calculate the number of days required to ship all packages.
-Adjust bounds: If the calculated days are less than or equal to the target days, move the upper bound (high = mid - 1); otherwise, move the lower bound (low = mid + 1).
+Initialize bounds: Set low to the maximum element in weights (minimum possible capacity) and high 
+to the sum of all elements in weights (maximum possible capacity).
+Binary search: Use binary search to determine the minimum capacity (mid) between low and high that allows 
+shipping within days.
+Calculate days: For each capacity mid, use the getDays() function to calculate the number of days required to ship all
+packages.
+Adjust bounds: If the calculated days are less than or equal to the target days, move the upper bound (high = mid - 1); 
+otherwise, move the lower bound (low = mid + 1).
 Return: The final value of low will be the minimum capacity required to ship within the given number of days.
 Time Complexity:
 Binary Search: The binary search runs for O(log(sum - max)), where sum is the total weight and max is the maximum weight.
