@@ -1,5 +1,8 @@
-The array arr contains a set of sorted positive integers, and the goal is to find the k-th positive integer that is missing from the sequence starting from 1.
-The approach is straightforward: for each number in arr, it checks if that number is less than or equal to k. If so, it means the missing number we are tracking is "shifted" further by 1. This is because if a number exists in arr, it means it isn't missing, so the k-th missing number shifts forward.
+The array arr contains a set of sorted positive integers, and the goal is to find the k-th positive integer 
+that is missing from the sequence starting from 1.
+The approach is straightforward: for each number in arr, it checks if that number is less than or equal to k.
+If so, it means the missing number we are tracking is "shifted" further by 1. 
+This is because if a number exists in arr, it means it isn't missing, so the k-th missing number shifts forward.
 Once it finds a number that is greater than k, it stops because the k-th missing number can be determined directly.
 
 class Solution {
