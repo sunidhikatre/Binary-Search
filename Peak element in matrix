@@ -1,0 +1,47 @@
+Binary Search on Columns: Perform binary search on the column indices (low to high) to reduce the search space efficiently.
+Find Maximum in Current Column: At each column mid, find the row index with the maximum value using getMaxRowIndex.
+Compare Neighbors: Compare the maximum value in the mid column with its left and right neighbors (if they exist).
+Adjust Search Space: If the mid column value is greater than both neighbors, it is a peak; otherwise, shift the search to the neighbor with a larger value.
+Return Peak Coordinates: When a peak is found, return its coordinates; if no peak exists, return [-1, -1].
+
+
+class Solution {
+
+    int getMaxRowIndex(int[][] mat, int mid, int m, int n) {
+        int rowIndex = 0;
+        int maxValue = -1;
+        for(int i = 0; i<n ;i++){
+            if(mat[i][mid] > maxValue) {
+                maxValue = mat[i][mid];
+                rowIndex = i;
+            }
+        }
+        return rowIndex;
+    }
+    public int[] findPeakGrid(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        int low = 0;
+        int high = m - 1;
+
+        while(low <= high) {
+            int mid = (low + high)/2;
+
+            int maxRowIndex = getMaxRowIndex(mat, mid, m, n);
+
+            int left = mid - 1 >= 0 ? mat[maxRowIndex][mid - 1] : -1;
+            int right = mid + 1 < m ? mat[maxRowIndex][mid + 1] : -1;
+
+            if(mat[maxRowIndex][mid] > left && mat[maxRowIndex][mid] > right)
+            {
+                return new int[]{maxRowIndex, mid};
+            } else if(mat[maxRowIndex][mid] > left) {
+                low = mid + 1;
+            } else {
+                high = mid - 1; 
+            }
+        }
+        return new int[]{-1, -1};
+    }
+}
